@@ -59,5 +59,10 @@ package de.fdamken.yalp.ast;
  *
  */
 public interface ListElement {
-    // Nothing to do.
+    /**
+     * Executes a deep copy of the {@link ListElement list element}.
+     *
+     * @return The deep copy of the {@link ListElement list element}.
+     */
+    ListElement copy();
 }

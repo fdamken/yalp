@@ -21,7 +21,9 @@ package de.fdamken.yalp.ast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.Data;
 
@@ -34,7 +36,7 @@ import lombok.Data;
  *
  */
 @Data
-public class ListElementContainer implements ListElement {
+public class ListElementContainer implements ListElement, Iterable<ListElement> {
     /**
      * The stored elements of this container.
      *
@@ -44,68 +46,50 @@ public class ListElementContainer implements ListElement {
     /**
      * Constructor of ListElementContainer.
      *
-     * <p>
-     * <b> NOTE: Do not use this constructor directly! Use the
-     * {@link ListElementContainer#builder() builder} instead! </b>
-     * </p>
+     */
+    public ListElementContainer() {
+        this(new ArrayList<>());
+    }
+
+    /**
+     * Constructor of ListElementContainer.
      *
      * @param elements
-     *            The elements to be stored. This creates an unmodifiable list.
+     *            The elements to set.
      */
     private ListElementContainer(final List<ListElement> elements) {
-        this.elements = Collections.unmodifiableList(elements);
+        this.elements = elements;
     }
 
     /**
-     * Instantiates a new builder for the {@link ListElementContainer list
-     * element container}.
+     * {@inheritDoc}
      *
-     * @return A newly created builder for the {@link ListElementContainer list
-     *         element container}.
+     * @see java.lang.Iterable#iterator()
      */
-    public static ListElementContainerBuilder builder() {
-        return new ListElementContainerBuilder();
+    @Override
+    public Iterator<ListElement> iterator() {
+        // Create an unmodifiable list as iterating loops are able to remove
+        // elements from the initial list.
+        return Collections.unmodifiableList(this.elements).iterator();
     }
 
     /**
-     * The {@link ListElementContainerBuilder list element container builder}
-     * used for building {@link ListElementContainer list element containers}.
+     * {@inheritDoc}
      *
+     * @see de.fdamken.yalp.ast.ListElement#copy()
      */
-    public static class ListElementContainerBuilder {
-        /**
-         * The elements to be stored in the {@link ListElementContainer list
-         * element container}.
-         *
-         */
-        private final List<ListElement> elements = new ArrayList<>();
+    @Override
+    public ListElementContainer copy() {
+        return new ListElementContainer(this.elements.stream().map(ListElement::copy).collect(Collectors.toList()));
+    }
 
-        /**
-         * Constructor of ListElementContainer.ListElementContainerBuilder.
-         *
-         */
-        public ListElementContainerBuilder() {
-            // Nothing to do.
-        }
-
-        /**
-         * Adds the given element to the list of elements to be stored.
-         *
-         * @param element
-         *            The element to add.
-         */
-        public void addElement(final ListElement element) {
-            this.elements.add(element);
-        }
-
-        /**
-         * Builds the actual {@link ListElementContainer list element
-         * container}.
-         *
-         * @return The new {@link ListElementContainer list element container}.
-         */
-        public ListElementContainer build() {
-            return new ListElementContainer(this.elements);
-        }
+    /**
+     * Adds the given {@link ListElement list element} to the stored elements.
+     *
+     * @param element
+     *            The {@link ListElement list element} to add.
+     */
+    public void addElement(final ListElement element) {
+        this.elements.add(element);
     }
 }

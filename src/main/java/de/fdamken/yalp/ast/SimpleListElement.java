@@ -35,4 +35,14 @@ public class SimpleListElement implements ListElement {
      *
      */
     String content;
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see de.fdamken.yalp.ast.ListElement#copy()
+     */
+    @Override
+    public ListElement copy() {
+        return new SimpleListElement(this.content);
+    }
 }
