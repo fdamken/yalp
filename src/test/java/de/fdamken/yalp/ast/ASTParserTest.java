@@ -116,6 +116,18 @@ public class ASTParserTest {
                 + "))", builder);
     }
 
+    @Test
+    public void testSimpleComment() throws ParsingException {
+        final ASTBuilder builder = new ASTBuilder();
+        builder.openContainer();
+        builder.addElement("+");
+        builder.addElement("1");
+        builder.addElement("2");
+        builder.closeContainer();
+
+        this.check("; Hello, World!\n(+ 1 2)", builder);
+    }
+
     private void check(final String code, final ASTBuilder builder) throws ParsingException {
         Assert.assertEquals("The built AST does not match the expected AST!", builder.getAST(), ASTParser.parse(code));
     }

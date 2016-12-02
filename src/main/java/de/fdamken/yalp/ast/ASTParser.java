@@ -158,7 +158,7 @@ public class ASTParser {
                 execute = true;
             }
 
-            if (execute) {
+            if (!comment && execute) {
                 final boolean isOpeningBracket = control == '(' || control == '{' || control == '[';
                 final boolean isClosingBracket = control == ')' || control == '}' || control == ']';
                 final boolean isWhitespace = Character.isWhitespace(control);
