@@ -61,6 +61,61 @@ public class ASTParserTest {
         this.check("(sqrt (+ (* a a) (* b b)))", builder);
     }
 
+    @Test
+    public void testVeryComplex() throws ParsingException {
+        final ASTBuilder builder = new ASTBuilder();
+        builder.openContainer();
+        builder.addElement("define");
+        builder.openContainer();
+        builder.addElement("add-interest");
+        builder.addElement("capital");
+        builder.addElement("interest");
+        builder.closeContainer();
+        builder.openContainer();
+        builder.addElement("cond");
+        builder.openContainer();
+        builder.openContainer();
+        builder.addElement("<");
+        builder.addElement("interest");
+        builder.addElement("0");
+        builder.closeContainer();
+        builder.openContainer();
+        builder.addElement("error");
+        builder.addElement("'add-interest");
+        builder.addElement("\"no negative interest rates allowed\"");
+        builder.closeContainer();
+        builder.closeContainer();
+        builder.openContainer();
+        builder.openContainer();
+        builder.addElement("<=");
+        builder.addElement("capital");
+        builder.addElement("0");
+        builder.closeContainer();
+        builder.addElement("capital");
+        builder.closeContainer();
+        builder.openContainer();
+        builder.addElement("else");
+        builder.openContainer();
+        builder.addElement("*");
+        builder.addElement("capital");
+        builder.openContainer();
+        builder.addElement("+");
+        builder.addElement("interest");
+        builder.addElement("1");
+        builder.closeContainer();
+        builder.closeContainer();
+        builder.closeContainer();
+        builder.closeContainer();
+        builder.closeContainer();
+
+        this.check("(define (add-interest capital interest)" //
+                + "(cond" //
+                + "[(< interest 0) (error 'add-interest \"no negative interest rates allowed\")]" //
+                + "[(<= capital 0) capital]" //
+                + "[else (* capital (+ interest 1))]" //
+                + "))", builder);
+    }
+
     private void check(final String code, final ASTBuilder builder) throws ParsingException {
         Assert.assertEquals("The built AST does not match the expected AST!", builder.getAST(), ASTParser.parse(code));
     }

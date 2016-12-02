@@ -117,6 +117,7 @@ public class ASTParser {
         StringBuilder elementBuilder = new StringBuilder();
         boolean escape = false;
         boolean comment = false;
+        boolean string = false;
 
         int value = -1;
         while ((value = reader.read()) > -1) {
@@ -138,6 +139,19 @@ public class ASTParser {
                 execute = false;
             } else if (control == '\\') {
                 escape = true;
+
+                execute = false;
+            } else if (control == '"') {
+                elementBuilder.append('"');
+                if (string) {
+                    builder.addElement(elementBuilder.toString());
+                    elementBuilder = new StringBuilder();
+                }
+                string = !string;
+
+                execute = false;
+            } else if (string) {
+                elementBuilder.append(control);
 
                 execute = false;
             } else {
