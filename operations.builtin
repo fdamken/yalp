@@ -1,0 +1,24 @@
+Primitive operations:
+	- addition
+	- subtraction
+	- multiplication
+	- division
+
+Comparators:
+	- greater than or equal
+
+Structures:
+	- if
+	- cond
+
+Operations:
+	- lambda
+		* specially named functions
+	- define
+		* created lambdas using function-defines
+
+Datatypes:
+	- number
+	- symbol
+	- string
+	- function
