@@ -16,6 +16,8 @@ Operations:
 		* specially named functions
 	- define
 		* created lambdas using function-defines
+	- include
+		* includes another file
 
 Datatypes:
 	- number

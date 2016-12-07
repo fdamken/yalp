@@ -19,12 +19,18 @@
  */
 package de.fdamken.yalp.exec;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.fdamken.yalp.ast.ASTParser;
 import de.fdamken.yalp.ast.ListElementContainer;
@@ -37,6 +43,12 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 public class LispExecutor {
+    /**
+     * The logger.
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(LispExecutor.class);
+
     /**
      * The Abstract Syntax Tree (AST) that is about to be executed.
      *
@@ -118,6 +130,27 @@ public class LispExecutor {
      *            output stream.
      */
     public void execute(final InputStream stdin, final OutputStream stdout, final OutputStream errout) {
+        try (final BufferedReader in = stdin == null ? null
+                : new BufferedReader(new InputStreamReader(stdin, Charset.defaultCharset()));
+                final PrintStream out = stdout == null ? null : new PrintStream(stdout, true);
+                final PrintStream err = errout == null ? null : new PrintStream(errout, true)) {
+            this.internalExecute(in, out, err);
+        } catch (final IOException ex) {
+            LispExecutor.LOGGER.error("Failed to close stdin/stdout/errout!", ex);
+        }
+    }
+
+    /**
+     * Internal method for executing the AST.
+     *
+     * @param in
+     *            The standard input. May be <code>null</code>.
+     * @param out
+     *            The standard output. May be <code>null</code>.
+     * @param err
+     *            The error output. May be <code>null</code>.
+     */
+    private void internalExecute(final BufferedReader in, final PrintStream out, final PrintStream err) {
         // Magic goes here.
     }
 }

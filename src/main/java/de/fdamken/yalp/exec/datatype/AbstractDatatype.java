@@ -19,20 +19,66 @@
  */
 package de.fdamken.yalp.exec.datatype;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Arrays;
+import java.util.List;
+
+import de.fdamken.yalp.exec.datatype.exception.DatatypeCreationException;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This is the abstract class of any data type. A data type is the class and a
  * value of the data type is an instance of a data type class.
  *
+ * @param <V>
+ *            The data type of the value to save.
  */
-public abstract class AbstractDatatype {
+@Data
+@RequiredArgsConstructor
+public abstract class AbstractDatatype<V> {
     /**
-     * The logger.
+     * The name of this data type.
      *
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDatatype.class);
+    private final String name;
+    /**
+     * The saved value.
+     *
+     */
+    private final V value;
+    /**
+     * All data type classes that this data type can be casted into.
+     *
+     */
+    private final List<Class<? extends AbstractDatatype<?>>> castables;
+
+    /**
+     * Constructor of AbstractDatatype.
+     *
+     * @param name
+     *            The {@link #name} to set.
+     * @param value
+     *            The value to save.
+     * @param castables
+     *            The {@link #castables} to set.
+     */
+    @SafeVarargs
+    public AbstractDatatype(final String name, final V value, final Class<? extends AbstractDatatype<?>>... castables) {
+        this(name, value, Arrays.asList(castables));
+    }
+
+    /**
+     * Casts this data type into the given data type class. The given data type
+     * class must be one of {@link #castables}. If it is not, crazy things may
+     * happen.
+     *
+     * @param <T>
+     *            The data type of the data type to be casted into.
+     * @param datatypeClass
+     *            The data type class to be casted into.
+     * @return The casted value.
+     */
+    protected abstract <T extends AbstractDatatype<?>> T safeCast(final Class<? extends AbstractDatatype<?>> datatypeClass);
 
     /**
      * Checks whether one data type can be casted into another.
@@ -48,16 +94,19 @@ public abstract class AbstractDatatype {
      *            The data type that should be casted into.
      * @return Whether the from-data type can be casted into the to-data type.
      */
-    public static boolean isCastable(final Class<? extends AbstractDatatype> fromDatatypeClass,
-            final Class<? extends AbstractDatatype> toDatatypeClass) {
-        try {
-            return fromDatatypeClass.newInstance().isCastable(toDatatypeClass);
-        } catch (final InstantiationException | IllegalAccessException ex) {
-            AbstractDatatype.LOGGER
-                    .error("The datatype " + fromDatatypeClass.getCanonicalName() + " is not implemented correctly!", ex);
+    public static boolean isCastable(final Class<? extends AbstractDatatype<?>> fromDatatypeClass,
+            final Class<? extends AbstractDatatype<?>> toDatatypeClass) {
+        return AbstractDatatype.create(fromDatatypeClass).isCastable(toDatatypeClass);
+    }
 
-            return false;
-        }
+    /**
+     * {@inheritDoc}
+     *
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return String.valueOf(this.value);
     }
 
     /**
@@ -69,7 +118,9 @@ public abstract class AbstractDatatype {
      * @return Whether this data type instance can be casted into an instance of
      *         the given data type class.
      */
-    public abstract boolean isCastable(final Class<? extends AbstractDatatype> datatypeClass);
+    public boolean isCastable(final Class<? extends AbstractDatatype<?>> datatypeClass) {
+        return this.castables.stream().anyMatch(clazz -> clazz == datatypeClass);
+    }
 
     /**
      * Casts this data type instance into an instance of the given data type
@@ -84,5 +135,30 @@ public abstract class AbstractDatatype {
      *             If this data type is not castable into the given data type
      *             class.
      */
-    public abstract <T extends AbstractDatatype> T cast(final Class<T> datatypeClass) throws ClassCastException;
+    public <T extends AbstractDatatype<?>> T cast(final Class<T> datatypeClass) throws ClassCastException {
+        if (!this.isCastable(datatypeClass)) {
+            throw new ClassCastException(
+                    this.getName() + " cannot be casted into " + AbstractDatatype.create(datatypeClass).getName());
+        }
+
+        return this.safeCast(datatypeClass);
+    }
+
+    /**
+     * Creates an instance of the given data type class.
+     *
+     * @param <T>
+     *            The type of the data type to create.
+     * @param clazz
+     *            The class of the data type.
+     * @return The newly created data type.
+     */
+    private static <T extends AbstractDatatype<?>> T create(final Class<T> clazz) {
+        try {
+            return clazz.newInstance();
+        } catch (final InstantiationException | IllegalAccessException ex) {
+            throw new DatatypeCreationException("The datatype " + clazz.getCanonicalName() + " is not implemented correctly!",
+                    ex);
+        }
+    }
 }
