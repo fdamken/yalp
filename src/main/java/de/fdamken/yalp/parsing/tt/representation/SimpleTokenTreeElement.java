@@ -17,16 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.tokentree.representation;
+package de.fdamken.yalp.parsing.tt.representation;
+
+import lombok.Value;
 
 /**
  * One {@link SimpleTokenTreeElement list element} represents a single element
  * of the Lisp programming language and can be either a
  * {@link TokenTreeContainer list element container} or a
- * {@link TokenTreeElement simple list element}. The {@link TokenTreeContainer
- * list element container} is used for storing other {@link TokenTreeElement
- * list elements}, both {@link TokenTreeContainer list element containers} and
- * {@link TokenTreeElement simple list elements}.
+ * {@link SimpleTokenTreeElement simple list element}. The
+ * {@link TokenTreeContainer list element container} is used for storing other
+ * {@link SimpleTokenTreeElement list elements}, both {@link TokenTreeContainer
+ * list element containers} and {@link SimpleTokenTreeElement simple list
+ * elements}.
  *
  * <p>
  * This is used to represent the basic TT of the List programming language as
@@ -59,11 +62,31 @@ package de.fdamken.yalp.tokentree.representation;
  * </p>
  *
  */
-public interface TokenTreeElement {
+@Value
+public class SimpleTokenTreeElement implements TokenTreeElement {
     /**
-     * Executes a deep copy of the {@link SimpleTokenTreeElement list element}.
+     * The content of this element.
      *
-     * @return The deep copy of the {@link SimpleTokenTreeElement list element}.
      */
-    TokenTreeElement copy();
+    String content;
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see de.fdamken.yalp.parsing.tt.representation.SimpleTokenTreeElement#copy()
+     */
+    @Override
+    public SimpleTokenTreeElement copy() {
+        return new SimpleTokenTreeElement(this.content);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return this.content;
+    }
 }

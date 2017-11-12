@@ -22,13 +22,14 @@ package de.fdamken.yalp.syntaxtree.compile;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fdamken.yalp.CompilationPipeline;
-import de.fdamken.yalp.Input;
-import de.fdamken.yalp.exception.CompilationException;
-import de.fdamken.yalp.syntaxtree.representation.SyntaxTree;
-import de.fdamken.yalp.syntaxtree.representation.element.FunctionCall;
-import de.fdamken.yalp.syntaxtree.representation.element.Literal;
-import de.fdamken.yalp.tokentree.compile.TokenTreeParser;
+import de.fdamken.yalp.parsing.CompilationPipeline;
+import de.fdamken.yalp.parsing.Input;
+import de.fdamken.yalp.parsing.exception.CompilationException;
+import de.fdamken.yalp.parsing.st.compile.SyntaxTreeParser;
+import de.fdamken.yalp.parsing.st.representation.SyntaxTree;
+import de.fdamken.yalp.parsing.st.representation.element.FunctionCall;
+import de.fdamken.yalp.parsing.st.representation.element.Literal;
+import de.fdamken.yalp.parsing.tt.compile.TokenTreeParser;
 
 @SuppressWarnings("javadoc")
 public class SyntaxTreeParserTest {

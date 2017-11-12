@@ -17,8 +17,12 @@
  * limitations under the License.
  * #L%
  */
+package de.fdamken.yalp.parsing.st.representation;
+
 /**
- * Contains the Token Tree (TT) for the Lisp programming language.
+ * A syntax tree element that is added to a syntax tree.
  *
  */
-package de.fdamken.yalp.tokentree;
+public interface SyntaxTreeElement {
+    // Nothing to do.
+}

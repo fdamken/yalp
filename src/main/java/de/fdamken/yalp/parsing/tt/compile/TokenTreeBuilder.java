@@ -17,14 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.tokentree.compile;
+package de.fdamken.yalp.parsing.tt.compile;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import de.fdamken.yalp.tokentree.representation.SimpleTokenTreeElement;
-import de.fdamken.yalp.tokentree.representation.TokenTree;
-import de.fdamken.yalp.tokentree.representation.TokenTreeContainer;
+import de.fdamken.yalp.parsing.tt.representation.SimpleTokenTreeElement;
+import de.fdamken.yalp.parsing.tt.representation.TokenTree;
+import de.fdamken.yalp.parsing.tt.representation.TokenTreeContainer;
 
 /**
  * A builder used for building an TT in a flat way.

@@ -17,9 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp;
+package de.fdamken.yalp.parsing;
 
-import de.fdamken.yalp.exception.CompilationException;
+import de.fdamken.yalp.parsing.exception.CompilationException;
 import lombok.RequiredArgsConstructor;
 
 /**

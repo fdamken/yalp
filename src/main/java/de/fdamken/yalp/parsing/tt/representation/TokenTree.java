@@ -17,13 +17,32 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp;
+package de.fdamken.yalp.parsing.tt.representation;
+
+import java.util.Objects;
+
+import de.fdamken.yalp.parsing.IntermediateRepresentation;
+import lombok.Data;
 
 /**
- * Implement this to define a new intermediate representation between the
- * compilation steps.
+ * Wrapper class for the token tree.
  *
  */
-public interface IntermediateRepresentation {
-    // Nothing to do.
+@Data
+public class TokenTree implements IntermediateRepresentation {
+    /**
+     * The root container of the token tree.
+     *
+     */
+    private final TokenTreeContainer rootContainer;
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return Objects.toString(this.rootContainer);
+    }
 }

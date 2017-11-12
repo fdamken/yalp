@@ -17,19 +17,32 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.tokentree.exception;
+package de.fdamken.yalp.parsing.st.representation;
 
-import de.fdamken.yalp.exception.CompilationException;
+import java.util.Objects;
 
-@SuppressWarnings("javadoc")
-public class TokenTreeParsingException extends CompilationException {
-    private static final long serialVersionUID = -7186407377972049167L;
+import de.fdamken.yalp.parsing.IntermediateRepresentation;
+import lombok.Data;
 
-    public TokenTreeParsingException(final String message, final Throwable cause) {
-        super(message, cause);
-    }
+/**
+ * Represents the syntax tree.
+ *
+ */
+@Data
+public class SyntaxTree implements IntermediateRepresentation {
+    /**
+     * The root element of the syntax tree.
+     *
+     */
+    private final SyntaxTreeElement rootElement;
 
-    public TokenTreeParsingException(final String message) {
-        super(message);
+    /**
+     * {@inheritDoc}
+     *
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return Objects.toString(this.rootElement);
     }
 }

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.exception;
+package de.fdamken.yalp.parsing.exception;
 
 /**
  * Abstract exception for errors during the compilation.

@@ -22,10 +22,12 @@ package de.fdamken.yalp.tokentree.compile;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fdamken.yalp.CompilationPipeline;
-import de.fdamken.yalp.Input;
-import de.fdamken.yalp.exception.CompilationException;
-import de.fdamken.yalp.tokentree.representation.TokenTree;
+import de.fdamken.yalp.parsing.CompilationPipeline;
+import de.fdamken.yalp.parsing.Input;
+import de.fdamken.yalp.parsing.exception.CompilationException;
+import de.fdamken.yalp.parsing.tt.compile.TokenTreeBuilder;
+import de.fdamken.yalp.parsing.tt.compile.TokenTreeParser;
+import de.fdamken.yalp.parsing.tt.representation.TokenTree;
 
 @SuppressWarnings("javadoc")
 public class TokenTreeParserTest {

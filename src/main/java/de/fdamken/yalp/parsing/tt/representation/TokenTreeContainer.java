@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.tokentree.representation;
+package de.fdamken.yalp.parsing.tt.representation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -87,7 +87,7 @@ public class TokenTreeContainer implements TokenTreeElement, Iterable<TokenTreeE
     /**
      * {@inheritDoc}
      *
-     * @see de.fdamken.yalp.tokentree.representation.TokenTreeElement#copy()
+     * @see de.fdamken.yalp.parsing.tt.representation.TokenTreeElement#copy()
      */
     @Override
     public TokenTreeContainer copy() {

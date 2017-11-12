@@ -17,12 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.syntaxtree.representation;
+package de.fdamken.yalp.parsing.st.exception;
 
-/**
- * A syntax tree element that is added to a syntax tree.
- *
- */
-public interface SyntaxTreeElement {
-    // Nothing to do.
+import de.fdamken.yalp.parsing.exception.CompilationException;
+
+@SuppressWarnings("javadoc")
+public class SyntaxTreeParsingException extends CompilationException {
+    private static final long serialVersionUID = 2075781465078145152L;
+
+    public SyntaxTreeParsingException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
+    public SyntaxTreeParsingException(final String message) {
+        super(message);
+    }
 }

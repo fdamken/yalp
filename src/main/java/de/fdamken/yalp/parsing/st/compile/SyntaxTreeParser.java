@@ -17,22 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.syntaxtree.compile;
+package de.fdamken.yalp.parsing.st.compile;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.fdamken.yalp.AbstractCompilationStep;
-import de.fdamken.yalp.exception.CompilationException;
-import de.fdamken.yalp.syntaxtree.exception.SyntaxTreeParsingException;
-import de.fdamken.yalp.syntaxtree.representation.SyntaxTree;
-import de.fdamken.yalp.syntaxtree.representation.SyntaxTreeElement;
-import de.fdamken.yalp.syntaxtree.representation.element.FunctionCall;
-import de.fdamken.yalp.syntaxtree.representation.element.Literal;
-import de.fdamken.yalp.tokentree.representation.SimpleTokenTreeElement;
-import de.fdamken.yalp.tokentree.representation.TokenTree;
-import de.fdamken.yalp.tokentree.representation.TokenTreeContainer;
-import de.fdamken.yalp.tokentree.representation.TokenTreeElement;
+import de.fdamken.yalp.parsing.AbstractCompilationStep;
+import de.fdamken.yalp.parsing.exception.CompilationException;
+import de.fdamken.yalp.parsing.st.exception.SyntaxTreeParsingException;
+import de.fdamken.yalp.parsing.st.representation.SyntaxTree;
+import de.fdamken.yalp.parsing.st.representation.SyntaxTreeElement;
+import de.fdamken.yalp.parsing.st.representation.element.FunctionCall;
+import de.fdamken.yalp.parsing.st.representation.element.Literal;
+import de.fdamken.yalp.parsing.tt.representation.SimpleTokenTreeElement;
+import de.fdamken.yalp.parsing.tt.representation.TokenTree;
+import de.fdamken.yalp.parsing.tt.representation.TokenTreeContainer;
+import de.fdamken.yalp.parsing.tt.representation.TokenTreeElement;
 
 /**
  * The syntax tree parser for converting the token tree into a syntax tree (not
@@ -43,7 +43,7 @@ public class SyntaxTreeParser extends AbstractCompilationStep<TokenTree, SyntaxT
     /**
      * {@inheritDoc}
      *
-     * @see de.fdamken.yalp.AbstractCompilationStep#parse(de.fdamken.yalp.IntermediateRepresentation)
+     * @see de.fdamken.yalp.parsing.AbstractCompilationStep#parse(de.fdamken.yalp.parsing.IntermediateRepresentation)
      */
     @Override
     public SyntaxTree parse(final TokenTree tokenTree) throws CompilationException {

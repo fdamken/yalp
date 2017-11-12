@@ -17,11 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.syntaxtree.representation.element;
+package de.fdamken.yalp.parsing.st.representation.element;
 
 import java.util.Arrays;
 
-import de.fdamken.yalp.syntaxtree.representation.SyntaxTreeElement;
+import de.fdamken.yalp.parsing.st.representation.SyntaxTreeElement;
 import lombok.Value;
 
 /**

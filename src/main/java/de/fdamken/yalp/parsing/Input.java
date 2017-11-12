@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp;
+package de.fdamken.yalp.parsing;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;

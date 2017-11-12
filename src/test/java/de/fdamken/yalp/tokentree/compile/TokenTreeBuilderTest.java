@@ -22,8 +22,9 @@ package de.fdamken.yalp.tokentree.compile;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fdamken.yalp.tokentree.representation.SimpleTokenTreeElement;
-import de.fdamken.yalp.tokentree.representation.TokenTreeContainer;
+import de.fdamken.yalp.parsing.tt.compile.TokenTreeBuilder;
+import de.fdamken.yalp.parsing.tt.representation.SimpleTokenTreeElement;
+import de.fdamken.yalp.parsing.tt.representation.TokenTreeContainer;
 
 @SuppressWarnings("javadoc")
 public class TokenTreeBuilderTest {

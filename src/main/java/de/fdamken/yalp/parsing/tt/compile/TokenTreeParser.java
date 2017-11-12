@@ -17,17 +17,17 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.tokentree.compile;
+package de.fdamken.yalp.parsing.tt.compile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
-import de.fdamken.yalp.AbstractCompilationStep;
-import de.fdamken.yalp.Input;
-import de.fdamken.yalp.exception.CompilationException;
-import de.fdamken.yalp.tokentree.exception.TokenTreeParsingException;
-import de.fdamken.yalp.tokentree.representation.TokenTree;
+import de.fdamken.yalp.parsing.AbstractCompilationStep;
+import de.fdamken.yalp.parsing.Input;
+import de.fdamken.yalp.parsing.exception.CompilationException;
+import de.fdamken.yalp.parsing.tt.exception.TokenTreeParsingException;
+import de.fdamken.yalp.parsing.tt.representation.TokenTree;
 
 /**
  * This class parsed Lisp code and returns it as an TT.
@@ -37,7 +37,7 @@ public class TokenTreeParser extends AbstractCompilationStep<Input, TokenTree> {
     /**
      * {@inheritDoc}
      *
-     * @see de.fdamken.yalp.AbstractCompilationStep#parse(de.fdamken.yalp.IntermediateRepresentation)
+     * @see de.fdamken.yalp.parsing.AbstractCompilationStep#parse(de.fdamken.yalp.parsing.IntermediateRepresentation)
      */
     @Override
     public TokenTree parse(final Input input) throws CompilationException {

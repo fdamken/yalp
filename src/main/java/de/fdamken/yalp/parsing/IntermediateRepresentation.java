@@ -17,19 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.syntaxtree.exception;
+package de.fdamken.yalp.parsing;
 
-import de.fdamken.yalp.exception.CompilationException;
-
-@SuppressWarnings("javadoc")
-public class SyntaxTreeParsingException extends CompilationException {
-    private static final long serialVersionUID = 2075781465078145152L;
-
-    public SyntaxTreeParsingException(final String message, final Throwable cause) {
-        super(message, cause);
-    }
-
-    public SyntaxTreeParsingException(final String message) {
-        super(message);
-    }
+/**
+ * Implement this to define a new intermediate representation between the
+ * compilation steps.
+ *
+ */
+public interface IntermediateRepresentation {
+    // Nothing to do.
 }

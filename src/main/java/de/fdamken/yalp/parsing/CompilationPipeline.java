@@ -17,12 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp;
+package de.fdamken.yalp.parsing;
 
 import java.util.Arrays;
 import java.util.List;
 
-import de.fdamken.yalp.exception.CompilationException;
+import de.fdamken.yalp.parsing.exception.CompilationException;
 
 /**
  * Represents a simple compilation pipeline to pass the code thru all steps of
@@ -63,7 +63,7 @@ public class CompilationPipeline<I extends IntermediateRepresentation, O extends
     /**
      * {@inheritDoc}
      *
-     * @see de.fdamken.yalp.AbstractCompilationStep#parse(de.fdamken.yalp.IntermediateRepresentation)
+     * @see de.fdamken.yalp.parsing.AbstractCompilationStep#parse(de.fdamken.yalp.parsing.IntermediateRepresentation)
      */
     @SuppressWarnings({ "deprecation", "unchecked" })
     @Override
