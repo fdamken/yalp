@@ -17,38 +17,38 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.exec.datatype;
+package de.fdamken.yalp.exception;
 
 /**
- * A {@link YalpString YALP String} represents a string in Lisp.
+ * Abstract exception for errors during the compilation.
  *
  */
-public class YalpString extends AbstractDatatype<String> {
+public class CompilationException extends Exception {
     /**
-     * Constructor of YalpString.
+     * The serial version UID.
      *
-     * @param value
-     *            The value to save.
      */
-    public YalpString(final String value) {
-        super("string", value);
+    private static final long serialVersionUID = -9011997807214718679L;
+
+    /**
+     * Constructor of CompilationException.
+     *
+     * @param message
+     *            A detailed error message.
+     * @param cause
+     *            The causing exception.
+     */
+    public CompilationException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 
     /**
-     * Constructor of YalpString.
+     * Constructor of CompilationException.
      *
+     * @param message
+     *            A detailed error message.
      */
-    public YalpString() {
-        this(null);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see de.fdamken.yalp.exec.datatype.AbstractDatatype#safeCast(java.lang.Class)
-     */
-    @Override
-    protected <T extends AbstractDatatype<?>> T safeCast(final Class<? extends AbstractDatatype<?>> datatypeClass) {
-        return null;
+    public CompilationException(final String message) {
+        super(message);
     }
 }

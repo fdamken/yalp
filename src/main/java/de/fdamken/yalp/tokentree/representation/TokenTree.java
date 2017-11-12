@@ -17,32 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.ast;
+package de.fdamken.yalp.tokentree.representation;
 
-import lombok.Value;
+import de.fdamken.yalp.IntermediateRepresentation;
+import lombok.Data;
 
 /**
- * A {@link SimpleListElement simple list element} is a {@link ListElement list
- * element} that contains a single value that can be either an identifier, a
- * number, etc.. It does not contain any sub-nodes and that is why it is
- * "simple".
+ * Wrapper class for the token tree.
  *
  */
-@Value
-public class SimpleListElement implements ListElement {
+@Data
+public class TokenTree implements IntermediateRepresentation {
     /**
-     * The content of this element.
+     * The root container of the token tree.
      *
      */
-    String content;
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see de.fdamken.yalp.ast.ListElement#copy()
-     */
-    @Override
-    public ListElement copy() {
-        return new SimpleListElement(this.content);
-    }
+    private final TokenTreeContainer rootContainer;
 }

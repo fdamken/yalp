@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.ast;
+package de.fdamken.yalp.tokentree.representation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,26 +28,27 @@ import java.util.stream.Collectors;
 import lombok.Data;
 
 /**
- * The {@link ListElementContainer list element container} contains other
- * {@link ListElement list elements} and therefore represents the brackets in
- * Lisp (e.g. <code>(+ 1 2)</code> creates a {@link ListElementContainer list
- * element container} with the {@link SimpleListElement simple list elements}
- * <code>+</code>, <code>1</code> and <code>2</code>).
+ * The {@link TokenTreeContainer list element container} contains other
+ * {@link SimpleTokenTreeElement list elements} and therefore represents the
+ * brackets in Lisp (e.g. <code>(+ 1 2)</code> creates a
+ * {@link TokenTreeContainer list element container} with the
+ * {@link SimpleTokenTreeElement simple list elements} <code>+</code>,
+ * <code>1</code> and <code>2</code>).
  *
  */
 @Data
-public class ListElementContainer implements ListElement, Iterable<ListElement> {
+public class TokenTreeContainer implements TokenTreeElement, Iterable<TokenTreeElement> {
     /**
      * The stored elements of this container.
      *
      */
-    private final List<ListElement> elements;
+    private final List<TokenTreeElement> elements;
 
     /**
      * Constructor of ListElementContainer.
      *
      */
-    public ListElementContainer() {
+    public TokenTreeContainer() {
         this(new ArrayList<>());
     }
 
@@ -57,7 +58,7 @@ public class ListElementContainer implements ListElement, Iterable<ListElement> 
      * @param elements
      *            The elements to set.
      */
-    private ListElementContainer(final List<ListElement> elements) {
+    private TokenTreeContainer(final List<TokenTreeElement> elements) {
         this.elements = elements;
     }
 
@@ -67,7 +68,7 @@ public class ListElementContainer implements ListElement, Iterable<ListElement> 
      * @see java.lang.Iterable#iterator()
      */
     @Override
-    public Iterator<ListElement> iterator() {
+    public Iterator<TokenTreeElement> iterator() {
         // Create an unmodifiable list as iterating loops are able to remove
         // elements from the initial list.
         return Collections.unmodifiableList(this.elements).iterator();
@@ -76,20 +77,21 @@ public class ListElementContainer implements ListElement, Iterable<ListElement> 
     /**
      * {@inheritDoc}
      *
-     * @see de.fdamken.yalp.ast.ListElement#copy()
+     * @see de.fdamken.yalp.tokentree.representation.TokenTreeElement#copy()
      */
     @Override
-    public ListElementContainer copy() {
-        return new ListElementContainer(this.elements.stream().map(ListElement::copy).collect(Collectors.toList()));
+    public TokenTreeContainer copy() {
+        return new TokenTreeContainer(this.elements.stream().map(TokenTreeElement::copy).collect(Collectors.toList()));
     }
 
     /**
-     * Adds the given {@link ListElement list element} to the stored elements.
+     * Adds the given {@link SimpleTokenTreeElement list element} to the stored
+     * elements.
      *
      * @param element
-     *            The {@link ListElement list element} to add.
+     *            The {@link SimpleTokenTreeElement list element} to add.
      */
-    public void addElement(final ListElement element) {
+    public void addElement(final TokenTreeElement element) {
         this.elements.add(element);
     }
 }

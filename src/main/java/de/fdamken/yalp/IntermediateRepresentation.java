@@ -17,8 +17,13 @@
  * limitations under the License.
  * #L%
  */
+package de.fdamken.yalp;
+
 /**
- * Contains the Abstract Syntax Tree (AST) for the Lisp programming language.
+ * Implement this to define a new intermediate representation between the
+ * compilation steps.
  *
  */
-package de.fdamken.yalp.ast;
+public interface IntermediateRepresentation {
+    // Nothing to do.
+}

@@ -17,13 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.ast.exception;
+package de.fdamken.yalp.tokentree.exception;
+
+import de.fdamken.yalp.exception.CompilationException;
 
 /**
  * This exception is thrown if any error happens whilst parsing some Lisp code.
  *
  */
-public class ParsingException extends Exception {
+public class ParsingException extends CompilationException {
     /**
      * The serial version UID.
      *
@@ -50,15 +52,5 @@ public class ParsingException extends Exception {
      */
     public ParsingException(final String message) {
         super(message);
-    }
-
-    /**
-     * Constructor of ParsingException.
-     *
-     * @param cause
-     *            The error causing this exception.
-     */
-    public ParsingException(final Throwable cause) {
-        super(cause);
     }
 }

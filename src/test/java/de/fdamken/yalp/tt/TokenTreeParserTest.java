@@ -17,18 +17,23 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.ast;
+package de.fdamken.yalp.tt;
+
+import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fdamken.yalp.ast.exception.ParsingException;
+import de.fdamken.yalp.Input;
+import de.fdamken.yalp.exception.CompilationException;
+import de.fdamken.yalp.tokentree.compile.TokenTreeBuilder;
+import de.fdamken.yalp.tokentree.compile.TokenTreeParser;
 
 @SuppressWarnings("javadoc")
-public class ASTParserTest {
+public class TokenTreeParserTest {
     @Test
-    public void testSimple() throws ParsingException {
-        final ASTBuilder builder = new ASTBuilder();
+    public void testSimple() throws CompilationException {
+        final TokenTreeBuilder builder = new TokenTreeBuilder();
         builder.openContainer();
         builder.addElement("+");
         builder.addElement("1");
@@ -39,8 +44,8 @@ public class ASTParserTest {
     }
 
     @Test
-    public void testComplex() throws ParsingException {
-        final ASTBuilder builder = new ASTBuilder();
+    public void testComplex() throws CompilationException {
+        final TokenTreeBuilder builder = new TokenTreeBuilder();
         builder.openContainer();
         builder.addElement("sqrt");
         builder.openContainer();
@@ -62,8 +67,8 @@ public class ASTParserTest {
     }
 
     @Test
-    public void testVeryComplex() throws ParsingException {
-        final ASTBuilder builder = new ASTBuilder();
+    public void testVeryComplex() throws CompilationException {
+        final TokenTreeBuilder builder = new TokenTreeBuilder();
         builder.openContainer();
         builder.addElement("define");
         builder.openContainer();
@@ -117,8 +122,8 @@ public class ASTParserTest {
     }
 
     @Test
-    public void testSimpleComment() throws ParsingException {
-        final ASTBuilder builder = new ASTBuilder();
+    public void testSimpleComment() throws CompilationException {
+        final TokenTreeBuilder builder = new TokenTreeBuilder();
         builder.openContainer();
         builder.addElement("+");
         builder.addElement("1");
@@ -128,7 +133,11 @@ public class ASTParserTest {
         this.check("; Hello, World!\n(+ 1 2)", builder);
     }
 
-    private void check(final String code, final ASTBuilder builder) throws ParsingException {
-        Assert.assertEquals("The built AST does not match the expected AST!", builder.getAST(), ASTParser.parse(code));
+    private void check(final String code, final TokenTreeBuilder builder) throws CompilationException {
+        final TokenTreeParser parser = new TokenTreeParser(new Input(new StringReader(code)));
+        parser.parse();
+        Assert.assertTrue("The parser is not finished after invoking #parse()!", parser.isFinished());
+        Assert.assertEquals("The built AST does not match the expected AST!", builder.getTokenTree(),
+                parser.getOutput().getRootContainer());
     }
 }

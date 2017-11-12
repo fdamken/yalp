@@ -17,18 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.ast;
+package de.fdamken.yalp.tokentree.representation;
 
 /**
- * One {@link ListElement list element} represents a single element of the Lisp
- * programming language and can be either a {@link ListElementContainer list
- * element container} or a {@link SimpleListElement simple list element}. The
- * {@link ListElementContainer list element container} is used for storing other
- * {@link ListElement list elements}, both {@link ListElementContainer list
- * element containers} and {@link SimpleListElement simple list elements}.
+ * One {@link SimpleTokenTreeElement list element} represents a single element
+ * of the Lisp programming language and can be either a
+ * {@link TokenTreeContainer list element container} or a
+ * {@link TokenTreeElement simple list element}. The {@link TokenTreeContainer
+ * list element container} is used for storing other {@link TokenTreeElement
+ * list elements}, both {@link TokenTreeContainer list element containers} and
+ * {@link TokenTreeElement simple list elements}.
  *
  * <p>
- * This is used to represent the basic AST of the List programming language as
+ * This is used to represent the basic TT of the List programming language as
  * Lisp is a list-based programming language.
  * </p>
  * <br>
@@ -58,11 +59,11 @@ package de.fdamken.yalp.ast;
  * </p>
  *
  */
-public interface ListElement {
+public interface TokenTreeElement {
     /**
-     * Executes a deep copy of the {@link ListElement list element}.
+     * Executes a deep copy of the {@link SimpleTokenTreeElement list element}.
      *
-     * @return The deep copy of the {@link ListElement list element}.
+     * @return The deep copy of the {@link SimpleTokenTreeElement list element}.
      */
-    ListElement copy();
+    TokenTreeElement copy();
 }

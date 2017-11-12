@@ -17,39 +17,42 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.ast;
+package de.fdamken.yalp.tokentree.compile;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import de.fdamken.yalp.tokentree.representation.SimpleTokenTreeElement;
+import de.fdamken.yalp.tokentree.representation.TokenTreeContainer;
+
 /**
- * A builder used for building an AST in a flat way.
+ * A builder used for building an TT in a flat way.
  *
  */
-public class ASTBuilder {
+public class TokenTreeBuilder {
     /**
      * The parent containers of the current container. This is used for
      * {@link #closeContainer()}.
      *
      */
-    private final Deque<ListElementContainer> parentContainers = new ArrayDeque<>();
+    private final Deque<TokenTreeContainer> parentContainers = new ArrayDeque<>();
 
     /**
-     * The root container that is returned by {@link #getAST()}.
+     * The root container that is returned by {@link #getTokenTree()}.
      *
      */
-    private final ListElementContainer rootContainer = new ListElementContainer();
+    private final TokenTreeContainer rootContainer = new TokenTreeContainer();
     /**
      * The current container where new elements will be added to.
      *
      */
-    private ListElementContainer currentContainer;
+    private TokenTreeContainer currentContainer;
 
     /**
-     * Constructor of ASTBuilder.
+     * Constructor of TokenTreeBuilder.
      *
      */
-    public ASTBuilder() {
+    public TokenTreeBuilder() {
         // Nothing to do.
     }
 
@@ -63,7 +66,7 @@ public class ASTBuilder {
         } else {
             this.parentContainers.push(this.currentContainer);
 
-            final ListElementContainer container = new ListElementContainer();
+            final TokenTreeContainer container = new TokenTreeContainer();
             this.currentContainer.addElement(container);
             this.currentContainer = container;
         }
@@ -95,7 +98,7 @@ public class ASTBuilder {
             throw new IllegalStateException("The is no open container!");
         }
 
-        this.currentContainer.addElement(new SimpleListElement(content));
+        this.currentContainer.addElement(new SimpleTokenTreeElement(content));
     }
 
     /**
@@ -108,9 +111,9 @@ public class ASTBuilder {
 
     /**
      *
-     * @return Returns the current AST.
+     * @return Returns the current token tree.
      */
-    public ListElementContainer getAST() {
+    public TokenTreeContainer getTokenTree() {
         return this.rootContainer.copy();
     }
 }

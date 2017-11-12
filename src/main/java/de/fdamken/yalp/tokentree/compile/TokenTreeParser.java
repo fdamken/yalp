@@ -17,102 +17,70 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.ast;
+package de.fdamken.yalp.tokentree.compile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringReader;
-import java.nio.charset.Charset;
 
-import de.fdamken.yalp.ast.exception.ParsingException;
-import lombok.experimental.UtilityClass;
+import de.fdamken.yalp.AbstractCompilationStep;
+import de.fdamken.yalp.Input;
+import de.fdamken.yalp.exception.CompilationException;
+import de.fdamken.yalp.tokentree.exception.ParsingException;
+import de.fdamken.yalp.tokentree.representation.TokenTree;
 
 /**
- * This class parsed Lisp code and returns it as an AST.
+ * This class parsed Lisp code and returns it as an TT.
  *
  */
-@UtilityClass
-public class ASTParser {
+public class TokenTreeParser extends AbstractCompilationStep<Input, TokenTree> {
     /**
-     * Parses the Lisp code that is returned by the given (non-closed!)
-     * {@link Reader reader}.
+     * Constructor of TokenTreeParser.
      *
-     * @param in
-     *            The {@link Reader reader} to read the Lisp code from.
-     * @return The AST.
-     * @throws ParsingException
-     *             If any error occurs whilst parsing the Lisp code.
+     * @param input
+     *            The input.
      */
-    public static ListElementContainer parse(final Reader in) throws ParsingException {
+    public TokenTreeParser(final Input input) {
+        super(input);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see de.fdamken.yalp.AbstractCompilationStep#parse()
+     */
+    @Override
+    public void parse() throws CompilationException {
         try {
-            return ASTParser.internalParse(in);
+            this.internalParse();
         } catch (final IOException cause) {
-            throw new ParsingException("An error occurred whilst parsing the Lisp code!", cause);
+            throw new CompilationException("Error whilst doing I/O things.", cause);
         }
     }
 
     /**
-     * Parses the Lisp code that is returned by the given (non-closed!)
-     * {@link InputStream input stream}.
+     * {@inheritDoc}
      *
-     * @param in
-     *            The {@link Reader reader} to read the Lisp code from.
-     * @param charset
-     *            The character set to be used.
-     * @return The AST.
-     * @throws ParsingException
-     *             If any error occurs whilst parsing the Lisp code.
+     * @see de.fdamken.yalp.AbstractCompilationStep#isFinished()
      */
-    public static ListElementContainer parse(final InputStream in, final Charset charset) throws ParsingException {
-        return ASTParser.parse(new InputStreamReader(in, charset));
-    }
-
-    /**
-     * Parses the Lisp code that is returned by the given (non-closed!)
-     * {@link InputStream input stream}.
-     *
-     * @param in
-     *            The {@link Reader reader} to read the Lisp code from.
-     * @return The AST.
-     * @throws ParsingException
-     *             If any error occurs whilst parsing the Lisp code.
-     */
-    public static ListElementContainer parse(final InputStream in) throws ParsingException {
-        return ASTParser.parse(new InputStreamReader(in, Charset.defaultCharset()));
-    }
-
-    /**
-     * Parses the given Lisp code.
-     *
-     * @param str
-     *            The Lisp code from.
-     * @return The AST.
-     * @throws ParsingException
-     *             If any error occurs whilst parsing the Lisp code.
-     */
-    public static ListElementContainer parse(final String str) throws ParsingException {
-        return ASTParser.parse(new StringReader(str));
+    @Override
+    public boolean isFinished() {
+        return this.output != null;
     }
 
     /**
      * Parses the Lisp code that is returned by the given (non-closed!)
      * {@link Reader reader}.
      *
-     * @param in
-     *            The {@link Reader reader} to read the Lisp code from.
-     * @return The AST.
      * @throws IOException
      *             If an I/O error occurs.
      * @throws ParsingException
      *             If any error occurs whilst parsing the Lisp code.
      */
-    private static ListElementContainer internalParse(final Reader in) throws IOException, ParsingException {
-        final BufferedReader reader = new BufferedReader(in);
+    private void internalParse() throws IOException, ParsingException {
+        final BufferedReader reader = new BufferedReader(this.input.getReader());
 
-        final ASTBuilder builder = new ASTBuilder();
+        final TokenTreeBuilder builder = new TokenTreeBuilder();
 
         StringBuilder elementBuilder = new StringBuilder();
         boolean escape = false;
@@ -181,6 +149,6 @@ public class ASTParser {
             throw new ParsingException("Not all brackets are closed!");
         }
 
-        return builder.getAST();
+        this.output = new TokenTree(builder.getTokenTree());
     }
 }

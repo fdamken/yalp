@@ -17,25 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.ast;
+package de.fdamken.yalp.tt;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import de.fdamken.yalp.tokentree.compile.TokenTreeBuilder;
+import de.fdamken.yalp.tokentree.representation.SimpleTokenTreeElement;
+import de.fdamken.yalp.tokentree.representation.TokenTreeContainer;
+
 @SuppressWarnings("javadoc")
-public class ASTBuilderTest {
+public class TokenTreeBuilderTest {
     @Test
     public void testNoContainer() {
-        final ASTBuilder builder = new ASTBuilder();
+        final TokenTreeBuilder builder = new TokenTreeBuilder();
 
         this.checkFinished(builder);
 
-        this.checkAST(builder, new ListElementContainer());
+        this.checkAST(builder, new TokenTreeContainer());
     }
 
     @Test
     public void testOneContainer() {
-        final ASTBuilder builder = new ASTBuilder();
+        final TokenTreeBuilder builder = new TokenTreeBuilder();
 
         builder.openContainer();
 
@@ -45,12 +49,12 @@ public class ASTBuilderTest {
 
         this.checkFinished(builder);
 
-        this.checkAST(builder, new ListElementContainer());
+        this.checkAST(builder, new TokenTreeContainer());
     }
 
     @Test
     public void testTwoContainer() {
-        final ASTBuilder builder = new ASTBuilder();
+        final TokenTreeBuilder builder = new TokenTreeBuilder();
 
         builder.openContainer();
         builder.openContainer();
@@ -62,15 +66,15 @@ public class ASTBuilderTest {
 
         this.checkFinished(builder);
 
-        final ListElementContainer expected = new ListElementContainer();
-        final ListElementContainer container = new ListElementContainer();
+        final TokenTreeContainer expected = new TokenTreeContainer();
+        final TokenTreeContainer container = new TokenTreeContainer();
         expected.addElement(container);
         this.checkAST(builder, expected);
     }
 
     @Test
     public void testOneElement() {
-        final ASTBuilder builder = new ASTBuilder();
+        final TokenTreeBuilder builder = new TokenTreeBuilder();
 
         builder.openContainer();
         builder.addElement("Hello");
@@ -81,14 +85,14 @@ public class ASTBuilderTest {
 
         this.checkFinished(builder);
 
-        final ListElementContainer expected = new ListElementContainer();
-        expected.addElement(new SimpleListElement("Hello"));
+        final TokenTreeContainer expected = new TokenTreeContainer();
+        expected.addElement(new SimpleTokenTreeElement("Hello"));
         this.checkAST(builder, expected);
     }
 
     @Test
     public void testTwoElement() {
-        final ASTBuilder builder = new ASTBuilder();
+        final TokenTreeBuilder builder = new TokenTreeBuilder();
 
         builder.openContainer();
         builder.addElement("Hello");
@@ -100,9 +104,9 @@ public class ASTBuilderTest {
 
         this.checkFinished(builder);
 
-        final ListElementContainer expected = new ListElementContainer();
-        expected.addElement(new SimpleListElement("Hello"));
-        expected.addElement(new SimpleListElement("World"));
+        final TokenTreeContainer expected = new TokenTreeContainer();
+        expected.addElement(new SimpleTokenTreeElement("Hello"));
+        expected.addElement(new SimpleTokenTreeElement("World"));
         this.checkAST(builder, expected);
     }
 
@@ -112,7 +116,7 @@ public class ASTBuilderTest {
         // Lisp Code:
         // (sqrt (+ (* a a) (* b b)))
 
-        final ASTBuilder builder = new ASTBuilder();
+        final TokenTreeBuilder builder = new TokenTreeBuilder();
 
         builder.openContainer();
         builder.addElement("sqrt");
@@ -133,33 +137,33 @@ public class ASTBuilderTest {
 
         this.checkFinished(builder);
 
-        final ListElementContainer containerSqrt = new ListElementContainer();
-        containerSqrt.addElement(new SimpleListElement("sqrt"));
-        final ListElementContainer containerPlus = new ListElementContainer();
+        final TokenTreeContainer containerSqrt = new TokenTreeContainer();
+        containerSqrt.addElement(new SimpleTokenTreeElement("sqrt"));
+        final TokenTreeContainer containerPlus = new TokenTreeContainer();
         containerSqrt.addElement(containerPlus);
-        containerPlus.addElement(new SimpleListElement("+"));
-        final ListElementContainer containerA = new ListElementContainer();
+        containerPlus.addElement(new SimpleTokenTreeElement("+"));
+        final TokenTreeContainer containerA = new TokenTreeContainer();
         containerPlus.addElement(containerA);
-        containerA.addElement(new SimpleListElement("*"));
-        containerA.addElement(new SimpleListElement("a"));
-        containerA.addElement(new SimpleListElement("a"));
-        final ListElementContainer containerB = new ListElementContainer();
+        containerA.addElement(new SimpleTokenTreeElement("*"));
+        containerA.addElement(new SimpleTokenTreeElement("a"));
+        containerA.addElement(new SimpleTokenTreeElement("a"));
+        final TokenTreeContainer containerB = new TokenTreeContainer();
         containerPlus.addElement(containerB);
-        containerB.addElement(new SimpleListElement("*"));
-        containerB.addElement(new SimpleListElement("b"));
-        containerB.addElement(new SimpleListElement("b"));
+        containerB.addElement(new SimpleTokenTreeElement("*"));
+        containerB.addElement(new SimpleTokenTreeElement("b"));
+        containerB.addElement(new SimpleTokenTreeElement("b"));
         this.checkAST(builder, containerSqrt);
     }
 
-    private void checkNotFinished(final ASTBuilder builder) {
+    private void checkNotFinished(final TokenTreeBuilder builder) {
         Assert.assertFalse("The builder must not be finished!", builder.isFinished());
     }
 
-    private void checkFinished(final ASTBuilder builder) {
+    private void checkFinished(final TokenTreeBuilder builder) {
         Assert.assertTrue("The builder must be finished!", builder.isFinished());
     }
 
-    private void checkAST(final ASTBuilder builder, final ListElementContainer expected) {
-        Assert.assertEquals("The built AST does not match the expected AST!", expected, builder.getAST());
+    private void checkAST(final TokenTreeBuilder builder, final TokenTreeContainer expected) {
+        Assert.assertEquals("The built AST does not match the expected AST!", expected, builder.getTokenTree());
     }
 }
