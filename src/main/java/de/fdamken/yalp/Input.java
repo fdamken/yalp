@@ -22,6 +22,7 @@ package de.fdamken.yalp;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.nio.charset.Charset;
 
 import lombok.Getter;
@@ -46,6 +47,16 @@ public class Input implements IntermediateRepresentation {
      */
     public Input(final Reader reader) {
         this.reader = reader;
+    }
+
+    /**
+     * Constructor of Input.
+     *
+     * @param code
+     *            The code.
+     */
+    public Input(final String code) {
+        this(new StringReader(code));
     }
 
     /**

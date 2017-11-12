@@ -35,50 +35,33 @@ import de.fdamken.yalp.tokentree.representation.TokenTree;
  */
 public class TokenTreeParser extends AbstractCompilationStep<Input, TokenTree> {
     /**
-     * Constructor of TokenTreeParser.
-     *
-     * @param input
-     *            The input.
-     */
-    public TokenTreeParser(final Input input) {
-        super(input);
-    }
-
-    /**
      * {@inheritDoc}
      *
-     * @see de.fdamken.yalp.AbstractCompilationStep#parse()
+     * @see de.fdamken.yalp.AbstractCompilationStep#parse(de.fdamken.yalp.IntermediateRepresentation)
      */
     @Override
-    public void parse() throws CompilationException {
+    public TokenTree parse(final Input input) throws CompilationException {
         try {
-            this.internalParse();
+            return this.internalParse(input);
         } catch (final IOException cause) {
             throw new CompilationException("Error whilst doing I/O things.", cause);
         }
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @see de.fdamken.yalp.AbstractCompilationStep#isFinished()
-     */
-    @Override
-    public boolean isFinished() {
-        return this.output != null;
-    }
-
-    /**
      * Parses the Lisp code that is returned by the given (non-closed!)
      * {@link Reader reader}.
      *
+     * @param input
+     *            The code.
+     * @return The token tree.
      * @throws IOException
      *             If an I/O error occurs.
      * @throws ParsingException
      *             If any error occurs whilst parsing the Lisp code.
      */
-    private void internalParse() throws IOException, ParsingException {
-        final BufferedReader reader = new BufferedReader(this.input.getReader());
+    private TokenTree internalParse(final Input input) throws IOException, ParsingException {
+        final BufferedReader reader = new BufferedReader(input.getReader());
 
         final TokenTreeBuilder builder = new TokenTreeBuilder();
 
@@ -149,6 +132,6 @@ public class TokenTreeParser extends AbstractCompilationStep<Input, TokenTree> {
             throw new ParsingException("Not all brackets are closed!");
         }
 
-        this.output = new TokenTree(builder.getTokenTree());
+        return builder.getTokenTree();
     }
 }

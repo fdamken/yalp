@@ -17,12 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.tt;
+package de.fdamken.yalp.tokentree.compile;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fdamken.yalp.tokentree.compile.TokenTreeBuilder;
 import de.fdamken.yalp.tokentree.representation.SimpleTokenTreeElement;
 import de.fdamken.yalp.tokentree.representation.TokenTreeContainer;
 
@@ -164,6 +163,7 @@ public class TokenTreeBuilderTest {
     }
 
     private void checkAST(final TokenTreeBuilder builder, final TokenTreeContainer expected) {
-        Assert.assertEquals("The built AST does not match the expected AST!", expected, builder.getTokenTree());
+        Assert.assertEquals("The built AST does not match the expected AST!", expected,
+                builder.getTokenTree().getRootContainer());
     }
 }

@@ -17,20 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.tt;
-
-import java.io.StringReader;
+package de.fdamken.yalp.tokentree.compile;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import de.fdamken.yalp.CompilationPipeline;
 import de.fdamken.yalp.Input;
 import de.fdamken.yalp.exception.CompilationException;
-import de.fdamken.yalp.tokentree.compile.TokenTreeBuilder;
-import de.fdamken.yalp.tokentree.compile.TokenTreeParser;
+import de.fdamken.yalp.tokentree.representation.TokenTree;
 
 @SuppressWarnings("javadoc")
 public class TokenTreeParserTest {
+    private static final CompilationPipeline<Input, TokenTree> COMPILER = new CompilationPipeline<>(new TokenTreeParser());
+
     @Test
     public void testSimple() throws CompilationException {
         final TokenTreeBuilder builder = new TokenTreeBuilder();
@@ -40,7 +40,7 @@ public class TokenTreeParserTest {
         builder.addElement("2");
         builder.closeContainer();
 
-        this.check("(+ 1 2)", builder);
+        this.check("(+ 1 2)", builder.getTokenTree());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class TokenTreeParserTest {
         builder.closeContainer();
         builder.closeContainer();
 
-        this.check("(sqrt (+ (* a a) (* b b)))", builder);
+        this.check("(sqrt (+ (* a a) (* b b)))", builder.getTokenTree());
     }
 
     @Test
@@ -118,7 +118,7 @@ public class TokenTreeParserTest {
                 + "[(< interest 0) (error 'add-interest \"no negative interest rates allowed\")]" //
                 + "[(<= capital 0) capital]" //
                 + "[else (* capital (+ interest 1))]" //
-                + "))", builder);
+                + "))", builder.getTokenTree());
     }
 
     @Test
@@ -130,14 +130,11 @@ public class TokenTreeParserTest {
         builder.addElement("2");
         builder.closeContainer();
 
-        this.check("; Hello, World!\n(+ 1 2)", builder);
+        this.check("; Hello, World!\n(+ 1 2)", builder.getTokenTree());
     }
 
-    private void check(final String code, final TokenTreeBuilder builder) throws CompilationException {
-        final TokenTreeParser parser = new TokenTreeParser(new Input(new StringReader(code)));
-        parser.parse();
-        Assert.assertTrue("The parser is not finished after invoking #parse()!", parser.isFinished());
-        Assert.assertEquals("The built AST does not match the expected AST!", builder.getTokenTree(),
-                parser.getOutput().getRootContainer());
+    private void check(final String code, final TokenTree tokenTree) throws CompilationException {
+        final TokenTree compiledTokenTree = TokenTreeParserTest.COMPILER.parse(new Input(code));
+        Assert.assertEquals("The built token tree does not match the expected token tree!", tokenTree, compiledTokenTree);
     }
 }

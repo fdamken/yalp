@@ -79,4 +79,14 @@ public class SimpleTokenTreeElement implements TokenTreeElement {
     public SimpleTokenTreeElement copy() {
         return new SimpleTokenTreeElement(this.content);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return this.content;
+    }
 }

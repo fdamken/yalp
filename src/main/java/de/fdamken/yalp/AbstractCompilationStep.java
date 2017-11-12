@@ -33,44 +33,32 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public abstract class AbstractCompilationStep<I extends IntermediateRepresentation, O extends IntermediateRepresentation> {
     /**
-     * The input representation of the code.
-     *
-     */
-    protected final I input;
-    /**
-     * The output representation of the code.
-     *
-     */
-    protected O output;
-
-    /**
      * Parses the input and produces the output.
      *
+     * @param input
+     *            The input.
+     * @return The output.
      * @throws CompilationException
      *             If an error occurs during the compilation.
      */
-    public abstract void parse() throws CompilationException;
+    public abstract O parse(final I input) throws CompilationException;
 
     /**
-     * Checks whether the parsing has finished. This is usually the case after
-     * {@link #parse()} was invoked.
+     * Dangerous method to parse input using casting.
      *
-     * @return Whether the parsing has been finished or not.
-     */
-    public abstract boolean isFinished();
-
-    /**
+     * <p>
+     * <b> NOTE: Do not use this unless you really know what you are doing! </b>
+     * </p>
      *
-     * @return {@link #output}.
+     * @param input
+     *            The input.
+     * @return The output.
      * @throws CompilationException
-     *             If the parsing was not finished (so call
-     *             {@link #isFinished()} first).
+     *             Compiler error.
      */
-    public O getOutput() throws CompilationException {
-        if (!this.isFinished()) {
-            throw new CompilationException("The parsing has not yet finished!");
-        }
-
-        return this.output;
+    @SuppressWarnings("unchecked")
+    @Deprecated
+    final Object parseDanger(final Object input) throws CompilationException {
+        return this.parse((I) input);
     }
 }

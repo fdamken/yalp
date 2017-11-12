@@ -23,6 +23,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import de.fdamken.yalp.tokentree.representation.SimpleTokenTreeElement;
+import de.fdamken.yalp.tokentree.representation.TokenTree;
 import de.fdamken.yalp.tokentree.representation.TokenTreeContainer;
 
 /**
@@ -95,7 +96,7 @@ public class TokenTreeBuilder {
      */
     public void addElement(final String content) throws IllegalStateException {
         if (this.currentContainer == null) {
-            throw new IllegalStateException("The is no open container!");
+            throw new IllegalStateException("There is no open container!");
         }
 
         this.currentContainer.addElement(new SimpleTokenTreeElement(content));
@@ -113,7 +114,7 @@ public class TokenTreeBuilder {
      *
      * @return Returns the current token tree.
      */
-    public TokenTreeContainer getTokenTree() {
-        return this.rootContainer.copy();
+    public TokenTree getTokenTree() {
+        return new TokenTree(this.rootContainer.copy());
     }
 }

@@ -65,6 +65,16 @@ public class TokenTreeContainer implements TokenTreeElement, Iterable<TokenTreeE
     /**
      * {@inheritDoc}
      *
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "(" + this.elements.stream().map(Object::toString).collect(Collectors.joining(" ")) + ")";
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @see java.lang.Iterable#iterator()
      */
     @Override
