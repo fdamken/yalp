@@ -23,7 +23,7 @@ package de.fdamken.yalp.exception;
  * Abstract exception for errors during the compilation.
  *
  */
-public class CompilationException extends Exception {
+public abstract class CompilationException extends Exception {
     /**
      * The serial version UID.
      *

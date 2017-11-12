@@ -24,6 +24,7 @@ import java.util.List;
 
 import de.fdamken.yalp.AbstractCompilationStep;
 import de.fdamken.yalp.exception.CompilationException;
+import de.fdamken.yalp.syntaxtree.exception.SyntaxTreeParsingException;
 import de.fdamken.yalp.syntaxtree.representation.SyntaxTree;
 import de.fdamken.yalp.syntaxtree.representation.SyntaxTreeElement;
 import de.fdamken.yalp.syntaxtree.representation.element.FunctionCall;
@@ -64,7 +65,7 @@ public class SyntaxTreeParser extends AbstractCompilationStep<TokenTree, SyntaxT
         } else if (tokenTree instanceof SimpleTokenTreeElement) {
             return this.parseLiteral((SimpleTokenTreeElement) tokenTree);
         } else {
-            throw new CompilationException("Unknown token tree element type " + tokenTree.getClass().getSimpleName() + "!");
+            throw new SyntaxTreeParsingException("Unknown token tree element type " + tokenTree.getClass().getSimpleName() + "!");
         }
     }
 
@@ -83,7 +84,7 @@ public class SyntaxTreeParser extends AbstractCompilationStep<TokenTree, SyntaxT
             functionContent.add(this.parse(tokenTreeElement));
         }
         if (functionContent.isEmpty()) {
-            throw new CompilationException("Missing parameters for function call!");
+            throw new SyntaxTreeParsingException("Missing parameters for function call!");
         }
         return new FunctionCall(functionContent.remove(0),
                 functionContent.toArray(new SyntaxTreeElement[functionContent.size()]));

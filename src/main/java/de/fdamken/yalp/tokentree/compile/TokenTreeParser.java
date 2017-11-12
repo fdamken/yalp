@@ -26,7 +26,7 @@ import java.io.Reader;
 import de.fdamken.yalp.AbstractCompilationStep;
 import de.fdamken.yalp.Input;
 import de.fdamken.yalp.exception.CompilationException;
-import de.fdamken.yalp.tokentree.exception.ParsingException;
+import de.fdamken.yalp.tokentree.exception.TokenTreeParsingException;
 import de.fdamken.yalp.tokentree.representation.TokenTree;
 
 /**
@@ -44,7 +44,7 @@ public class TokenTreeParser extends AbstractCompilationStep<Input, TokenTree> {
         try {
             return this.internalParse(input);
         } catch (final IOException cause) {
-            throw new CompilationException("Error whilst doing I/O things.", cause);
+            throw new TokenTreeParsingException("Error whilst doing I/O things.", cause);
         }
     }
 
@@ -57,10 +57,10 @@ public class TokenTreeParser extends AbstractCompilationStep<Input, TokenTree> {
      * @return The token tree.
      * @throws IOException
      *             If an I/O error occurs.
-     * @throws ParsingException
+     * @throws TokenTreeParsingException
      *             If any error occurs whilst parsing the Lisp code.
      */
-    private TokenTree internalParse(final Input input) throws IOException, ParsingException {
+    private TokenTree internalParse(final Input input) throws IOException, TokenTreeParsingException {
         final BufferedReader reader = new BufferedReader(input.getReader());
 
         final TokenTreeBuilder builder = new TokenTreeBuilder();
@@ -129,7 +129,7 @@ public class TokenTreeParser extends AbstractCompilationStep<Input, TokenTree> {
         }
 
         if (!builder.isFinished()) {
-            throw new ParsingException("Not all brackets are closed!");
+            throw new TokenTreeParsingException("Not all brackets are closed!");
         }
 
         return builder.getTokenTree();

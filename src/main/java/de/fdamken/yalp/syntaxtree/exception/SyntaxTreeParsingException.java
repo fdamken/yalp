@@ -17,40 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package de.fdamken.yalp.tokentree.exception;
+package de.fdamken.yalp.syntaxtree.exception;
 
 import de.fdamken.yalp.exception.CompilationException;
 
-/**
- * This exception is thrown if any error happens whilst parsing some Lisp code.
- *
- */
-public class ParsingException extends CompilationException {
-    /**
-     * The serial version UID.
-     *
-     */
-    private static final long serialVersionUID = -7186407377972049167L;
+@SuppressWarnings("javadoc")
+public class SyntaxTreeParsingException extends CompilationException {
+    private static final long serialVersionUID = 2075781465078145152L;
 
-    /**
-     * Constructor of ParsingException.
-     *
-     * @param message
-     *            A detailed error message.
-     * @param cause
-     *            The error causing this exception.
-     */
-    public ParsingException(final String message, final Throwable cause) {
+    public SyntaxTreeParsingException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    /**
-     * Constructor of ParsingException.
-     *
-     * @param message
-     *            A detailed error message.
-     */
-    public ParsingException(final String message) {
+    public SyntaxTreeParsingException(final String message) {
         super(message);
     }
 }
